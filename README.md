@@ -1,3 +1,16 @@
+# Note
+
+This fix is intended for systemd version 246 on machines running amdgpu driver. On some machines, value of /sys/class/backlight/amdgpu\_bl0/\<device\>/actual_brightness never changes when configuring the brightness level for whatever reason, and as a result systemd always loads unchanged (max) brightness on startup. Fix was tested on Solus 4.1 (fortitude).
+
+Apply the fix by building the project and copying the resulting ELF file from build/systemd-backlight to /usr/lib/systemd/systemd-backlight
+
+```sh
+meson build
+ninja -C build
+sudo mv /usr/lib/systemd/systemd-backlight /usr/lib/systemd/systemd-backlight.bak
+sudo cp build/systemd-backlight /usr/lib/systemd/systemd-backlight
+```
+
 ![Systemd](http://brand.systemd.io/assets/page-logo.png)
 
 System and Service Manager

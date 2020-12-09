@@ -308,16 +308,6 @@ static int read_brightness(sd_device *device, const char **ret) {
         if (r < 0)
                 return log_device_debug_errno(device, r, "Failed to get subsystem: %m");
 
-        if (streq(subsystem, "backlight")) {
-                r = sd_device_get_sysattr_value(device, "actual_brightness", ret);
-                if (r >= 0)
-                        return 0;
-                if (r != -ENOENT)
-                        return log_device_debug_errno(device, r, "Failed to read 'actual_brightness' attribute: %m");
-
-                log_device_debug_errno(device, r, "Failed to read 'actual_brightness' attribute, fall back to use 'brightness' attribute: %m");
-        }
-
         r = sd_device_get_sysattr_value(device, "brightness", ret);
         if (r < 0)
                 return log_device_debug_errno(device, r, "Failed to read 'brightness' attribute: %m");
